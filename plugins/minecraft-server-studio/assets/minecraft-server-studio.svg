@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Minecraft Server Studio icon">
+  <rect width="512" height="512" rx="56" fill="#0E1510"/>
+  <rect x="40" y="40" width="432" height="432" rx="44" fill="#132419"/>
+  <rect x="76" y="92" width="360" height="248" rx="28" fill="#1A2F22"/>
+  <rect x="96" y="116" width="320" height="200" rx="22" fill="#203A2A"/>
+  <rect x="120" y="144" width="128" height="40" rx="12" fill="#5BC16D"/>
+  <rect x="120" y="198" width="272" height="18" rx="9" fill="#D6C08C" opacity="0.95"/>
+  <rect x="120" y="230" width="224" height="18" rx="9" fill="#9FE6AB" opacity="0.85"/>
+  <rect x="120" y="262" width="184" height="18" rx="9" fill="#D6C08C" opacity="0.75"/>
+  <rect x="324" y="144" width="68" height="68" rx="16" fill="#5BC16D"/>
+  <rect x="340" y="160" width="14" height="14" rx="4" fill="#0E1510"/>
+  <rect x="362" y="160" width="14" height="14" rx="4" fill="#0E1510"/>
+  <rect x="350" y="176" width="16" height="24" rx="5" fill="#0E1510"/>
+  <rect x="138" y="368" width="236" height="24" rx="12" fill="#5BC16D"/>
+  <rect x="170" y="404" width="172" height="18" rx="9" fill="#D6C08C"/>
+</svg>

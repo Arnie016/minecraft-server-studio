@@ -1,0 +1,42 @@
+{
+  "name": "minecraft-server-studio",
+  "version": "0.1.0",
+  "description": "Manage local Minecraft Paper servers with a menu bar control surface, focused Codex skills, AI builder guidance, and screenshot-based command recovery.",
+  "author": {
+    "name": "Arnav",
+    "url": "https://github.com/Arnie016"
+  },
+  "homepage": "https://github.com/Arnie016/minecraft-server-studio",
+  "repository": "https://github.com/Arnie016/minecraft-server-studio",
+  "license": "MIT",
+  "keywords": [
+    "minecraft",
+    "paper",
+    "macos",
+    "menu-bar",
+    "worldedit",
+    "ai-builder"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Minecraft Server Studio",
+    "shortDescription": "Run, inspect, and coach a local Minecraft server",
+    "longDescription": "Minecraft Server Studio gives Codex a focused local control surface for Minecraft Paper servers. Use it to inspect the current server, repair plugins, guide players through command errors, and iterate on AI builder workflows without losing the real server context.",
+    "developerName": "Arnav",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/Arnie016/minecraft-server-studio",
+    "defaultPrompt": [
+      "Use Minecraft Server Studio to inspect my local Paper server and tell me what plugins are installed.",
+      "Use Minecraft Server Studio to explain this Minecraft screenshot and tell me the exact commands to try next.",
+      "Use Minecraft Server Studio to tune the AI builder prompts and style presets."
+    ],
+    "brandColor": "#58C16F",
+    "composerIcon": "./assets/minecraft-server-studio.svg",
+    "logo": "./assets/minecraft-server-studio.svg"
+  }
+}

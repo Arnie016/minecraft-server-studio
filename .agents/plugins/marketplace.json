@@ -1,0 +1,20 @@
+{
+  "name": "minecraft-server-studio-local",
+  "interface": {
+    "displayName": "Minecraft Server Studio Local"
+  },
+  "plugins": [
+    {
+      "name": "minecraft-server-studio",
+      "source": {
+        "source": "local",
+        "path": "./plugins/minecraft-server-studio"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

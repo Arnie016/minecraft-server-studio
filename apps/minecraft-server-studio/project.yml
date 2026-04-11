@@ -1,0 +1,33 @@
+name: MinecraftServerStudio
+options:
+  minimumXcodeGenVersion: 2.45.3
+  deploymentTarget:
+    macOS: "15.0"
+settings:
+  base:
+    SWIFT_VERSION: 6.0
+    PRODUCT_NAME: $(TARGET_NAME)
+    CODE_SIGN_STYLE: Automatic
+targets:
+  MinecraftServerStudio:
+    type: application
+    platform: macOS
+    deploymentTarget: "15.0"
+    sources:
+      - path: MinecraftServerStudioApp/Sources
+    info:
+      path: MinecraftServerStudioApp/Info.plist
+      properties:
+        CFBundleDisplayName: Minecraft Server Studio
+        LSApplicationCategoryType: public.app-category.utilities
+        NSPrincipalClass: NSApplication
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.arnav.MinecraftServerStudio
+        INFOPLIST_FILE: MinecraftServerStudioApp/Info.plist
+        PRODUCT_MODULE_NAME: MinecraftServerStudio
+schemes:
+  MinecraftServerStudio:
+    build:
+      targets:
+        MinecraftServerStudio: all
