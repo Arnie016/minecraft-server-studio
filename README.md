@@ -17,6 +17,27 @@ This mirrors the cleaner `FrameCrawler` pattern on your machine:
 - `plugins/minecraft-server-studio`: repo-local Codex plugin bundle
 - `scripts/run_minecraft_server_studio.sh`: generate, build, open, and run helper
 
+## Minecraft Icon Bar Status
+
+Yes, the Minecraft icon bar is implemented here as the macOS menu bar app.
+
+It lives in:
+
+- `apps/minecraft-server-studio`
+
+Run it with:
+
+```bash
+cd /Users/arnav/Desktop/minecraft-server-studio
+bash scripts/run_minecraft_server_studio.sh run
+```
+
+This repo is the app repo.
+
+If you want the standalone Codex plugin repo instead, that now lives here:
+
+- [`minecraft-codex-plugin`](https://github.com/Arnie016/minecraft-codex-plugin)
+
 ## Product split
 
 - `AcaciaAIBuilder` stays the Paper-side plugin that runs in the server
@@ -47,6 +68,43 @@ Then fully quit and reopen Codex desktop.
 - `minecraft-server-ops`: Paper lifecycle, backups, plugins, and server diagnosis
 - `minecraft-command-coach`: screenshot-driven help for WorldEdit, claims, and command recovery
 - `minecraft-ai-builder-lab`: Acacia AI builder prompt, style, and planning work
+
+## Skill Catalog
+
+### `minecraft-server-studio`
+
+Use this for the product surface in this repo:
+
+- menu bar app
+- repo-local plugin wiring
+- server discovery UI
+- local app workflow
+
+### `minecraft-server-ops`
+
+Use this for the live Paper server:
+
+- plugin inventory
+- logs
+- start and restart flows
+- operational checks
+
+### `minecraft-command-coach`
+
+Use this for in-game screenshot help:
+
+- WorldEdit
+- claims
+- command syntax recovery
+
+### `minecraft-ai-builder-lab`
+
+Use this for AI builder tuning:
+
+- prompts
+- styles
+- larger plans
+- validation rules
 
 ## FrameCrawler comparison
 
