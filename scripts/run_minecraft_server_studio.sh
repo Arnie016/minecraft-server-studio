@@ -22,9 +22,7 @@ generate_project() {
 }
 
 ensure_project() {
-  if [ ! -d "${PROJECT_PATH}" ]; then
-    generate_project
-  fi
+  generate_project
 }
 
 case "${1:-doctor}" in

@@ -53,4 +53,12 @@ struct ServerSnapshot: Sendable {
     var hasAuraSkills: Bool {
         pluginNames.contains { $0.lowercased().contains("auraskills") }
     }
+
+    var hasCoreProtect: Bool {
+        pluginNames.contains { $0.lowercased().contains("coreprotect") }
+    }
+
+    var hasBlueMap: Bool {
+        pluginNames.contains { $0.lowercased().contains("bluemap") }
+    }
 }

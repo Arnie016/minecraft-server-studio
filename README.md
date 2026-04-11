@@ -38,6 +38,24 @@ If you want the standalone Codex plugin repo instead, that now lives here:
 
 - [`minecraft-codex-plugin`](https://github.com/Arnie016/minecraft-codex-plugin)
 
+## What the icon bar can do now
+
+The menu bar app is no longer just a server status panel. It now acts like a small Minecraft control room:
+
+- custom agents with their own role, style preset, prompt seed, behavior notes, and memory toggle
+- a lightweight build queue so you can stage ideas like districts, spawn hubs, or castle wings
+- auto-memory that watches CoreProtect history plus interesting `latest.log` events and saves them into a local JSON memory file
+- one-click access to the saved world memory from the icon bar, including open/reveal actions
+- live server inventory, plugin stack, world folders, and restart/open actions
+
+The default starter agents are:
+
+- `Builder One`
+- `Archivist`
+- `Navigator`
+
+The memory flow is designed so you can later plug more AI behavior into it without losing the world history.
+
 ## Product split
 
 - `AcaciaAIBuilder` stays the Paper-side plugin that runs in the server
@@ -52,6 +70,8 @@ bash scripts/run_minecraft_server_studio.sh run
 ```
 
 The first run generates the Xcode project if needed, builds the app, and opens the built `.app`.
+
+If you change Swift source files or add new files, the runner now regenerates the Xcode project before `open`, `build`, or `run`, so the app stays in sync with the repo.
 
 ## Install the Codex plugin
 

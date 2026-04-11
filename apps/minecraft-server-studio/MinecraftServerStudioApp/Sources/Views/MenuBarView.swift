@@ -34,13 +34,16 @@ struct MenuBarView: View {
                     serverCard
                     quickActions
                     inventoryCard
+                    agentCard
+                    queueCard
+                    memoryCard
                     pluginCard
                     logCard
                     footer
                 }
                 .padding(16)
             }
-            .frame(width: 428, height: 700)
+            .frame(width: 444, height: 880)
         }
     }
 
@@ -126,6 +129,11 @@ struct MenuBarView: View {
                 .buttonStyle(.bordered)
             }
 
+            HStack(spacing: 8) {
+                statusChip(model.activeAgent?.name ?? "No active agent", tint: StudioPalette.accent.opacity(0.14), foreground: StudioPalette.accent)
+                statusChip(model.autoMemoryEnabled ? "Auto-memory on" : "Auto-memory off", tint: model.autoMemoryEnabled ? StudioPalette.sand.opacity(0.18) : StudioPalette.lava.opacity(0.18), foreground: model.autoMemoryEnabled ? StudioPalette.sand : StudioPalette.lava)
+            }
+
             if !model.actionMessage.isEmpty {
                 Text(model.actionMessage)
                     .font(.caption2.weight(.semibold))
@@ -163,6 +171,7 @@ struct MenuBarView: View {
                 statusChip(model.snapshot.hasAIBuilder ? "AI builder" : "No AI builder", tint: StudioPalette.accent.opacity(0.14), foreground: model.snapshot.hasAIBuilder ? StudioPalette.accent : StudioPalette.sand)
                 statusChip(model.snapshot.hasWorldEdit ? "WorldEdit" : "No WorldEdit", tint: .white.opacity(0.07), foreground: model.snapshot.hasWorldEdit ? StudioPalette.text : StudioPalette.muted)
                 statusChip(model.snapshot.hasAuraSkills ? "AuraSkills" : "No AuraSkills", tint: .white.opacity(0.07), foreground: model.snapshot.hasAuraSkills ? StudioPalette.text : StudioPalette.muted)
+                statusChip(model.snapshot.hasCoreProtect ? "CoreProtect" : "No CoreProtect", tint: .white.opacity(0.07), foreground: model.snapshot.hasCoreProtect ? StudioPalette.text : StudioPalette.muted)
             }
 
             if let listener = model.snapshot.listenerSummary {
@@ -177,6 +186,296 @@ struct MenuBarView: View {
                         Text("• \(issue)")
                             .font(.caption2)
                             .foregroundStyle(StudioPalette.lava)
+                    }
+                }
+            }
+        }
+        .padding(14)
+        .background(cardBackground)
+    }
+
+    private var agentCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text("Custom Agents")
+                    .font(.caption.weight(.bold))
+                    .foregroundStyle(StudioPalette.muted)
+                Spacer()
+                Text("\(model.agents.count) saved")
+                    .font(.caption2.weight(.bold))
+                    .foregroundStyle(StudioPalette.sand)
+            }
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(model.agents) { agent in
+                        Button {
+                            model.selectAgent(agent)
+                        } label: {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(agent.name)
+                                    .font(.caption.weight(.bold))
+                                Text(agent.stylePreset)
+                                    .font(.caption2)
+                                    .foregroundStyle(StudioPalette.muted)
+                            }
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(
+                                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                    .fill(agent.isActive ? StudioPalette.accent.opacity(0.18) : StudioPalette.raised)
+                            )
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+
+            HStack(spacing: 10) {
+                labeledTextField("Name", text: $model.agentDraftName, placeholder: "Architect")
+                labeledTextField("Role", text: $model.agentDraftRole, placeholder: "Spawn builder")
+            }
+
+            labeledTextField("Style", text: $model.agentDraftStylePreset, placeholder: "futuristic")
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(model.suggestedStylePresets, id: \.self) { preset in
+                        Button(preset) {
+                            model.applyStylePreset(preset)
+                        }
+                        .buttonStyle(.bordered)
+                    }
+                }
+            }
+
+            labeledTextField("Prompt Seed", text: $model.agentDraftPromptSeed, placeholder: "larger scale, dramatic entrances")
+
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Behavior Notes")
+                    .font(.caption2.weight(.bold))
+                    .foregroundStyle(StudioPalette.muted)
+
+                TextEditor(text: $model.agentDraftBehaviorNotes)
+                    .scrollContentBackground(.hidden)
+                    .font(.system(size: 12.5, weight: .medium))
+                    .foregroundStyle(StudioPalette.text)
+                    .frame(height: 72)
+                    .padding(10)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .fill(StudioPalette.raised)
+                    )
+            }
+
+            Toggle(isOn: $model.agentDraftMemoryEnabled) {
+                Text("Allow this agent to participate in world memory")
+                    .font(.caption2.weight(.semibold))
+                    .foregroundStyle(StudioPalette.secondaryText)
+            }
+            .toggleStyle(.switch)
+
+            HStack(spacing: 10) {
+                Button("New") {
+                    model.newAgentDraft()
+                }
+                .buttonStyle(.bordered)
+
+                Button("Save Agent") {
+                    model.saveAgentDraft()
+                }
+                .buttonStyle(.borderedProminent)
+
+                if let selected = model.selectedAgentID,
+                   let agent = model.agents.first(where: { $0.id == selected }) {
+                    Button("Make Active") {
+                        model.activateAgent(agent)
+                    }
+                    .buttonStyle(.bordered)
+                }
+
+                Button("Delete") {
+                    model.deleteSelectedAgent()
+                }
+                .buttonStyle(.bordered)
+                .disabled(model.selectedAgentID == nil)
+            }
+        }
+        .padding(14)
+        .background(cardBackground)
+    }
+
+    private var queueCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text("Build Queue")
+                    .font(.caption.weight(.bold))
+                    .foregroundStyle(StudioPalette.muted)
+                Spacer()
+                Text("\(model.jobs.count) jobs")
+                    .font(.caption2.weight(.bold))
+                    .foregroundStyle(StudioPalette.sand)
+            }
+
+            HStack(spacing: 10) {
+                labeledTextField("Title", text: $model.jobDraftTitle, placeholder: "Spawn plaza")
+                labeledTextField("Style", text: $model.jobDraftStyle, placeholder: model.activeAgent?.stylePreset ?? "futuristic")
+            }
+
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Prompt")
+                    .font(.caption2.weight(.bold))
+                    .foregroundStyle(StudioPalette.muted)
+
+                TextEditor(text: $model.jobDraftPrompt)
+                    .scrollContentBackground(.hidden)
+                    .font(.system(size: 12.5, weight: .medium))
+                    .foregroundStyle(StudioPalette.text)
+                    .frame(height: 72)
+                    .padding(10)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .fill(StudioPalette.raised)
+                    )
+            }
+
+            HStack {
+                Text("Assigned agent: \(model.activeAgent?.name ?? "none")")
+                    .font(.caption2.weight(.semibold))
+                    .foregroundStyle(StudioPalette.muted)
+                Spacer()
+                Button("Add Job") {
+                    model.addJob()
+                }
+                .buttonStyle(.borderedProminent)
+            }
+
+            if model.jobs.isEmpty {
+                Text("No queued build jobs yet.")
+                    .font(.caption)
+                    .foregroundStyle(StudioPalette.muted)
+            } else {
+                VStack(alignment: .leading, spacing: 8) {
+                    ForEach(model.jobs.prefix(5)) { job in
+                        VStack(alignment: .leading, spacing: 6) {
+                            HStack {
+                                Text(job.title)
+                                    .font(.caption.weight(.bold))
+                                    .foregroundStyle(StudioPalette.text)
+                                Spacer()
+                                statusChip(job.status.title, tint: statusTint(for: job.status), foreground: statusForeground(for: job.status))
+                            }
+
+                            Text(job.prompt)
+                                .font(.caption2)
+                                .foregroundStyle(StudioPalette.muted)
+                                .lineLimit(2)
+
+                            HStack {
+                                Text("Style: \(job.style)")
+                                    .font(.caption2.weight(.semibold))
+                                    .foregroundStyle(StudioPalette.sand)
+                                Spacer()
+                                Button("Advance") {
+                                    model.advanceJob(job)
+                                }
+                                .buttonStyle(.bordered)
+                                Button("Remove") {
+                                    model.removeJob(job)
+                                }
+                                .buttonStyle(.bordered)
+                            }
+                        }
+                        .padding(12)
+                        .background(
+                            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                                .fill(StudioPalette.raised)
+                        )
+                    }
+                }
+            }
+        }
+        .padding(14)
+        .background(cardBackground)
+    }
+
+    private var memoryCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text("World Memory")
+                    .font(.caption.weight(.bold))
+                    .foregroundStyle(StudioPalette.muted)
+                Spacer()
+                Text("\(model.memoryEntries.count) saved")
+                    .font(.caption2.weight(.bold))
+                    .foregroundStyle(StudioPalette.sand)
+            }
+
+            HStack(spacing: 10) {
+                Button(model.autoMemoryEnabled ? "Pause Memory" : "Resume Memory") {
+                    model.toggleAutoMemory()
+                }
+                .buttonStyle(.bordered)
+
+                Button("Open JSON") {
+                    model.openMemoryFile()
+                }
+                .buttonStyle(.bordered)
+
+                Button("Reveal Folder") {
+                    model.revealMemoryFolder()
+                }
+                .buttonStyle(.bordered)
+            }
+
+            if !model.memoryStatusMessage.isEmpty {
+                Text(model.memoryStatusMessage)
+                    .font(.caption2.weight(.semibold))
+                    .foregroundStyle(StudioPalette.sand)
+            }
+
+            if model.memoryEntries.isEmpty {
+                Text("No world memory captured yet. Refresh with CoreProtect enabled or use the server to create activity.")
+                    .font(.caption)
+                    .foregroundStyle(StudioPalette.muted)
+            } else {
+                VStack(alignment: .leading, spacing: 8) {
+                    ForEach(model.memoryEntries.prefix(8)) { entry in
+                        VStack(alignment: .leading, spacing: 4) {
+                            HStack {
+                                statusChip(entry.source.title, tint: sourceTint(for: entry.source), foreground: sourceForeground(for: entry.source))
+                                Text(entry.actor)
+                                    .font(.caption2.weight(.bold))
+                                    .foregroundStyle(StudioPalette.text)
+                                Spacer()
+                                Text(memoryTimestamp(entry.timestamp))
+                                    .font(.caption2)
+                                    .foregroundStyle(StudioPalette.muted)
+                            }
+
+                            Text(entry.summary)
+                                .font(.caption.weight(.semibold))
+                                .foregroundStyle(StudioPalette.text)
+                                .lineLimit(2)
+
+                            HStack {
+                                if let world = entry.world {
+                                    Text(world)
+                                        .font(.caption2)
+                                        .foregroundStyle(StudioPalette.muted)
+                                }
+                                if let coordinates = entry.coordinates {
+                                    Text(coordinates)
+                                        .font(.caption2)
+                                        .foregroundStyle(StudioPalette.sand)
+                                }
+                            }
+                        }
+                        .padding(12)
+                        .background(
+                            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                                .fill(StudioPalette.raised)
+                        )
                     }
                 }
             }
@@ -254,7 +553,7 @@ struct MenuBarView: View {
 
     private var footer: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("Codex skills in this repo cover server ops, command coaching, and AI builder work.")
+            Text("Custom agents, queue planning, and world memory now live inside the icon bar alongside server ops.")
                 .font(.caption2.weight(.semibold))
                 .foregroundStyle(StudioPalette.muted)
 
@@ -295,6 +594,23 @@ struct MenuBarView: View {
         )
     }
 
+    private func labeledTextField(_ label: String, text: Binding<String>, placeholder: String) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(label)
+                .font(.caption2.weight(.bold))
+                .foregroundStyle(StudioPalette.muted)
+            TextField(placeholder, text: text)
+                .textFieldStyle(.plain)
+                .font(.caption.weight(.semibold))
+                .padding(.horizontal, 12)
+                .padding(.vertical, 10)
+                .background(
+                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                        .fill(StudioPalette.raised)
+                )
+        }
+    }
+
     private func statTile(_ title: String, value: String) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(title)
@@ -324,4 +640,50 @@ struct MenuBarView: View {
                     .fill(tint)
             )
     }
+
+    private func memoryTimestamp(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        return formatter.string(from: date)
+    }
+
+    private func sourceTint(for source: StudioMemoryEntry.Source) -> Color {
+        switch source {
+        case .app: return StudioPalette.accent.opacity(0.18)
+        case .command: return StudioPalette.sand.opacity(0.18)
+        case .chat: return .blue.opacity(0.18)
+        case .block: return .white.opacity(0.10)
+        case .log: return StudioPalette.lava.opacity(0.18)
+        }
+    }
+
+    private func sourceForeground(for source: StudioMemoryEntry.Source) -> Color {
+        switch source {
+        case .app: return StudioPalette.accent
+        case .command: return StudioPalette.sand
+        case .chat: return .blue
+        case .block: return StudioPalette.text
+        case .log: return StudioPalette.lava
+        }
+    }
+
+    private func statusTint(for status: StudioBuildJob.Status) -> Color {
+        switch status {
+        case .queued: return StudioPalette.sand.opacity(0.18)
+        case .active: return StudioPalette.accent.opacity(0.18)
+        case .done: return .white.opacity(0.10)
+        }
+    }
+
+    private func statusForeground(for status: StudioBuildJob.Status) -> Color {
+        switch status {
+        case .queued: return StudioPalette.sand
+        case .active: return StudioPalette.accent
+        case .done: return StudioPalette.text
+        }
+    }
+}
+
+private extension StudioPalette {
+    static let secondaryText = Color(red: 0.76, green: 0.80, blue: 0.86)
 }

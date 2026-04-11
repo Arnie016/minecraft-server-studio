@@ -24,6 +24,9 @@ struct MinecraftServerStudioApp: App {
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
+                Text("Memory file: \(model.memoryFileURL.path)")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
             }
             .padding(24)
             .frame(width: 440)
