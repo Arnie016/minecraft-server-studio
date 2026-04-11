@@ -1,5 +1,79 @@
 import Foundation
 
+enum StudioPanel: String, CaseIterable, Identifiable, Codable {
+    case commandCenter
+    case worldIntel
+    case serverLab
+    case agents
+    case opsDeck
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .commandCenter: return "Command Center"
+        case .worldIntel: return "World Intel"
+        case .serverLab: return "Server Lab"
+        case .agents: return "Agents"
+        case .opsDeck: return "Ops Deck"
+        }
+    }
+
+    var symbolName: String {
+        switch self {
+        case .commandCenter: return "sparkles.tv"
+        case .worldIntel: return "globe.americas.fill"
+        case .serverLab: return "shippingbox.circle.fill"
+        case .agents: return "person.3.sequence.fill"
+        case .opsDeck: return "slider.horizontal.3"
+        }
+    }
+}
+
+enum StudioPluginCloneMode: String, CaseIterable, Codable, Hashable {
+    case none
+    case creativeTooling
+    case fullStack
+
+    var title: String {
+        switch self {
+        case .none: return "Fresh"
+        case .creativeTooling: return "Creative Tools"
+        case .fullStack: return "Full Stack"
+        }
+    }
+
+    var summary: String {
+        switch self {
+        case .none:
+            return "Only scaffold the new Paper server files."
+        case .creativeTooling:
+            return "Copy creative plugins like AI builder, WorldEdit, and CoreProtect."
+        case .fullStack:
+            return "Copy the current plugin stack for a near-clone server."
+        }
+    }
+}
+
+struct WorldInsight: Identifiable, Hashable {
+    let id: String
+    let name: String
+    let regionCount: Int
+    let playerDataCount: Int
+    let memoryEventCount: Int
+    let lastModified: Date?
+    let lastEventSummary: String?
+    let isPrimaryWorld: Bool
+}
+
+struct StudioCommandAction: Identifiable, Hashable {
+    let id: String
+    let title: String
+    let command: String
+    let note: String
+    let category: String
+}
+
 struct StudioAgentProfile: Identifiable, Codable, Hashable {
     var id: UUID
     var name: String
@@ -138,12 +212,14 @@ struct StudioPersistedState: Codable {
     var memoryEntries: [StudioMemoryEntry]
     var selectedAgentID: UUID?
     var autoMemoryEnabled: Bool
+    var selectedPanel: StudioPanel?
 
     static let empty = StudioPersistedState(
         agents: StudioAgentProfile.starterProfiles,
         jobs: [],
         memoryEntries: [],
         selectedAgentID: StudioAgentProfile.starterProfiles.first?.id,
-        autoMemoryEnabled: true
+        autoMemoryEnabled: true,
+        selectedPanel: .commandCenter
     )
 }

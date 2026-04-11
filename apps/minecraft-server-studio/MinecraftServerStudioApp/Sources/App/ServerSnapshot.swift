@@ -1,16 +1,43 @@
 import Foundation
 
+struct WorldSnapshot: Identifiable, Sendable, Hashable {
+    let id: String
+    let name: String
+    let path: String
+    let regionCount: Int
+    let playerDataCount: Int
+    let lastModified: Date?
+
+    init(
+        id: String? = nil,
+        name: String,
+        path: String,
+        regionCount: Int,
+        playerDataCount: Int,
+        lastModified: Date?
+    ) {
+        self.id = id ?? name
+        self.name = name
+        self.path = path
+        self.regionCount = regionCount
+        self.playerDataCount = playerDataCount
+        self.lastModified = lastModified
+    }
+}
+
 struct ServerSnapshot: Sendable {
     let serverDirectoryPath: String?
     let displayName: String
     let jarName: String?
     let startScriptName: String?
-    let worldNames: [String]
+    let worlds: [WorldSnapshot]
     let pluginNames: [String]
     let latestLogLines: [String]
     let isRunning: Bool
+    let serverPort: Int?
     let listenerSummary: String?
     let launchAgentLabel: String?
+    let eulaAccepted: Bool
     let issues: [String]
 
     static let empty = ServerSnapshot(
@@ -18,12 +45,14 @@ struct ServerSnapshot: Sendable {
         displayName: "No server selected",
         jarName: nil,
         startScriptName: nil,
-        worldNames: [],
+        worlds: [],
         pluginNames: [],
         latestLogLines: [],
         isRunning: false,
+        serverPort: nil,
         listenerSummary: nil,
         launchAgentLabel: nil,
+        eulaAccepted: false,
         issues: ["No Paper server was detected yet."]
     )
 
@@ -35,8 +64,12 @@ struct ServerSnapshot: Sendable {
         "\(pluginNames.count) plugin" + (pluginNames.count == 1 ? "" : "s")
     }
 
+    var worldNames: [String] {
+        worlds.map(\.name)
+    }
+
     var worldCountLabel: String {
-        "\(worldNames.count) world" + (worldNames.count == 1 ? "" : "s")
+        "\(worlds.count) world" + (worlds.count == 1 ? "" : "s")
     }
 
     var hasAIBuilder: Bool {
@@ -60,5 +93,13 @@ struct ServerSnapshot: Sendable {
 
     var hasBlueMap: Bool {
         pluginNames.contains { $0.lowercased().contains("bluemap") }
+    }
+
+    var totalRegionCount: Int {
+        worlds.reduce(0) { $0 + $1.regionCount }
+    }
+
+    var totalKnownPlayers: Int {
+        worlds.reduce(0) { max($0, $1.playerDataCount) }
     }
 }

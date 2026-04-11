@@ -7,6 +7,7 @@ final class MinecraftStudioModel: ObservableObject {
         static let selectedServerPath = "minecraftServerStudio.selectedServerPath"
     }
 
+    @Published var selectedPanel: StudioPanel = .commandCenter
     @Published var serverChoices: [String] = []
     @Published var selectedServerPath: String = ""
     @Published var agents: [StudioAgentProfile] = []
@@ -21,6 +22,10 @@ final class MinecraftStudioModel: ObservableObject {
     @Published var jobDraftTitle: String = ""
     @Published var jobDraftPrompt: String = ""
     @Published var jobDraftStyle: String = ""
+    @Published var newServerName: String = "creative-sandbox"
+    @Published var newServerPort: String = "25565"
+    @Published var newServerMemoryMB: String = "4096"
+    @Published var newServerCloneMode: StudioPluginCloneMode = .creativeTooling
     @Published private(set) var memoryEntries: [StudioMemoryEntry] = []
     @Published var autoMemoryEnabled = true
     @Published private(set) var snapshot: ServerSnapshot = .empty
@@ -29,9 +34,12 @@ final class MinecraftStudioModel: ObservableObject {
     @Published private(set) var isRefreshing = false
     @Published private(set) var actionMessage: String = ""
     @Published private(set) var memoryStatusMessage: String = ""
+    @Published private(set) var provisioningMessage: String = ""
+    @Published private(set) var clipboardMessage: String = ""
 
     private let defaults = UserDefaults.standard
     private let persistence = StudioPersistence()
+    private let provisioner = ServerProvisioner()
     private nonisolated(unsafe) var refreshTimer: Timer?
 
     init() {
@@ -51,11 +59,6 @@ final class MinecraftStudioModel: ObservableObject {
 
     var menuBarHelp: String {
         snapshot.isRunning ? "Minecraft server running" : "Minecraft server idle"
-    }
-
-    var selectedServerDisplay: String {
-        if selectedServerPath.isEmpty { return "Auto detect" }
-        return URL(fileURLWithPath: selectedServerPath).lastPathComponent
     }
 
     var primaryActionTitle: String {
@@ -80,14 +83,107 @@ final class MinecraftStudioModel: ObservableObject {
         persistence.baseDirectory
     }
 
+    var serverLabRootURL: URL {
+        provisioner.baseDirectory
+    }
+
     var suggestedStylePresets: [String] {
-        ["futuristic", "medieval", "desert", "japanese", "industrial", "organic"]
+        ["futuristic", "medieval", "desert", "japanese", "industrial", "organic", "cottage", "cyberpunk"]
+    }
+
+    var worldInsights: [WorldInsight] {
+        snapshot.worlds.map { world in
+            let relatedEntries = memoryEntries.filter { $0.world == world.name }
+            return WorldInsight(
+                id: world.id,
+                name: world.name,
+                regionCount: world.regionCount,
+                playerDataCount: world.playerDataCount,
+                memoryEventCount: relatedEntries.count,
+                lastModified: world.lastModified,
+                lastEventSummary: relatedEntries.first?.summary,
+                isPrimaryWorld: world.name == "world"
+            )
+        }
+    }
+
+    var deploymentReadinessLines: [String] {
+        guard snapshot.hasServer else {
+            return ["Choose or create a server to generate a deployment brief."]
+        }
+
+        var lines: [String] = []
+        if snapshot.isRunning, let port = snapshot.serverPort {
+            lines.append("Server is live on port \(port).")
+        } else if let port = snapshot.serverPort {
+            lines.append("Server is currently idle on port \(port).")
+        }
+
+        if let startScriptName = snapshot.startScriptName {
+            lines.append("Start script ready: \(startScriptName).")
+        } else {
+            lines.append("No start script detected yet.")
+        }
+
+        lines.append(snapshot.eulaAccepted ? "EULA already accepted." : "EULA still needs review in eula.txt.")
+        lines.append(snapshot.hasWorldEdit ? "WorldEdit is installed for power building." : "WorldEdit is not installed yet.")
+        lines.append(snapshot.hasAIBuilder ? "AI builder tooling is available." : "AI builder tooling is not detected.")
+        lines.append("\(snapshot.pluginCountLabel.capitalized) and \(snapshot.worldCountLabel).")
+        return lines
+    }
+
+    var operatorCommands: [StudioCommandAction] {
+        [
+            StudioCommandAction(
+                id: "we-wand",
+                title: "Select Region",
+                command: "//wand",
+                note: "Grab the WorldEdit wand, then left-click and right-click your corners.",
+                category: "WorldEdit"
+            ),
+            StudioCommandAction(
+                id: "we-stack",
+                title: "Stack Up",
+                command: "//stack 5 up",
+                note: "Repeat a finished slice vertically for fast towers and walls.",
+                category: "WorldEdit"
+            ),
+            StudioCommandAction(
+                id: "ai-plan",
+                title: "AI Preview",
+                command: "/aiplan small futuristic spawn hub with a center monument",
+                note: "Preview a prompt before you commit to the build.",
+                category: "AI Builder"
+            ),
+            StudioCommandAction(
+                id: "ai-style",
+                title: "Style Switch",
+                command: "/aistyle mix japanese temple",
+                note: "Blend presets quickly before planning.",
+                category: "AI Builder"
+            ),
+            StudioCommandAction(
+                id: "claim-ignore",
+                title: "Ignore Claims",
+                command: "/ignoreclaims",
+                note: "Temporarily bypass claim protections while building as op.",
+                category: "Admin"
+            ),
+            StudioCommandAction(
+                id: "core-inspect",
+                title: "CoreProtect Lookup",
+                command: "/co i",
+                note: "Inspect who touched a block when world memory points to a location.",
+                category: "Admin"
+            )
+        ]
     }
 
     func refresh() {
         guard !isRefreshing else { return }
         isRefreshing = true
         actionMessage = ""
+        clipboardMessage = ""
         let preferredPath = selectedServerPath
         let shouldCaptureMemory = autoMemoryEnabled
 
@@ -106,7 +202,7 @@ final class MinecraftStudioModel: ObservableObject {
                 self.selectedServerPath = selectedPath ?? ""
                 self.defaults.set(self.selectedServerPath, forKey: DefaultsKey.selectedServerPath)
                 self.snapshot = snapshot
-                self.headline = snapshot.isRunning ? "Server live" : "Server ready"
+                self.headline = snapshot.isRunning ? "Command center live" : "Command center ready"
                 self.subheadline = self.composeSubheadline(for: snapshot)
                 if shouldCaptureMemory {
                     self.mergeMemoryEntries(fetchedMemory)
@@ -176,11 +272,12 @@ final class MinecraftStudioModel: ObservableObject {
     }
 
     func openWorldFolder() {
-        guard let path = snapshot.serverDirectoryPath else { return }
-        let worldName = snapshot.worldNames.first ?? "world"
-        let url = URL(fileURLWithPath: path).appendingPathComponent(worldName)
-        guard FileManager.default.fileExists(atPath: url.path) else { return }
-        NSWorkspace.shared.open(url)
+        guard let world = snapshot.worlds.first else { return }
+        NSWorkspace.shared.open(URL(fileURLWithPath: world.path))
+    }
+
+    func openWorld(_ world: WorldSnapshot) {
+        NSWorkspace.shared.open(URL(fileURLWithPath: world.path))
     }
 
     func openLatestLog() {
@@ -190,12 +287,88 @@ final class MinecraftStudioModel: ObservableObject {
         NSWorkspace.shared.open(url)
     }
 
+    func revealServerLabRoot() {
+        try? FileManager.default.createDirectory(at: serverLabRootURL, withIntermediateDirectories: true)
+        NSWorkspace.shared.activateFileViewerSelecting([serverLabRootURL])
+    }
+
+    func createLocalServer() {
+        guard let sourcePath = snapshot.serverDirectoryPath else {
+            provisioningMessage = "Choose an existing Paper server first so Studio can clone its jar."
+            return
+        }
+
+        let name = newServerName.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !name.isEmpty else {
+            provisioningMessage = "Give the new server a name first."
+            return
+        }
+
+        let port = Int(newServerPort) ?? 25565
+        let memory = max(Int(newServerMemoryMB) ?? 4096, 1024)
+        let request = ServerProvisionRequest(
+            sourceServerURL: URL(fileURLWithPath: sourcePath),
+            name: name,
+            port: port,
+            memoryMB: memory,
+            cloneMode: newServerCloneMode
+        )
+
+        switch provisioner.createServer(using: request) {
+        case .success(let destinationURL):
+            provisioningMessage = "Created \(destinationURL.lastPathComponent) in Studio’s local server lab."
+            selectedPanel = .serverLab
+            recordAppEvent(summary: "Created local server \(destinationURL.lastPathComponent)", detail: destinationURL.path)
+            chooseServer(destinationURL.path)
+        case .failure(let error):
+            provisioningMessage = error.localizedDescription
+        }
+    }
+
+    func copyCommand(_ command: String) {
+        copyToPasteboard(command)
+        clipboardMessage = "Copied \(command)"
+    }
+
+    func copyDeploymentBrief() {
+        guard snapshot.hasServer else { return }
+
+        let worldSummary = snapshot.worlds.map {
+            "\($0.name): \($0.regionCount) regions, \($0.playerDataCount) players"
+        }.joined(separator: "\n")
+        let pluginSummary = snapshot.pluginNames.joined(separator: ", ")
+        let brief = """
+        Minecraft Server Studio Brief
+        Server: \(snapshot.displayName)
+        Path: \(snapshot.serverDirectoryPath ?? "unknown")
+        Port: \(snapshot.serverPort ?? 25565)
+        Running: \(snapshot.isRunning ? "yes" : "no")
+        Jar: \(snapshot.jarName ?? "missing")
+        Start script: \(snapshot.startScriptName ?? "missing")
+        EULA accepted: \(snapshot.eulaAccepted ? "yes" : "no")
+        Active agent: \(activeAgent?.name ?? "none")
+        Memory events: \(memoryEntries.count)
+
+        Worlds
+        \(worldSummary.isEmpty ? "No worlds detected" : worldSummary)
+
+        Plugins
+        \(pluginSummary.isEmpty ? "No plugins detected" : pluginSummary)
+
+        Readiness
+        \(deploymentReadinessLines.joined(separator: "\n"))
+        """
+        copyToPasteboard(brief)
+        clipboardMessage = "Copied deployment brief"
+    }
+
     func quit() {
         NSApp.terminate(nil)
     }
 
     func selectAgent(_ agent: StudioAgentProfile) {
         selectedAgentID = agent.id
+        selectedPanel = .agents
         loadAgentDraft(from: agent)
         persistState()
     }
@@ -343,7 +516,8 @@ final class MinecraftStudioModel: ObservableObject {
     private func composeSubheadline(for snapshot: ServerSnapshot) -> String {
         if snapshot.serverDirectoryPath != nil {
             let activeName = activeAgent?.name ?? "No active agent"
-            return "\(snapshot.pluginCountLabel), \(snapshot.worldCountLabel), \(memoryEntries.count) memory events, agent \(activeName)"
+            let portLabel = snapshot.serverPort.map { "port \($0)" } ?? "unknown port"
+            return "\(snapshot.pluginCountLabel), \(snapshot.worldCountLabel), \(portLabel), \(memoryEntries.count) memory events, agent \(activeName)"
         }
         return "Use Choose Server if your Paper folder is not in the usual places."
     }
@@ -380,12 +554,15 @@ final class MinecraftStudioModel: ObservableObject {
         jobs = state.jobs.sorted { $0.updatedAt > $1.updatedAt }
         memoryEntries = state.memoryEntries.sorted { $0.timestamp > $1.timestamp }
         autoMemoryEnabled = state.autoMemoryEnabled
+        selectedPanel = state.selectedPanel ?? .commandCenter
 
         if let selected = state.selectedAgentID,
            let agent = agents.first(where: { $0.id == selected }) {
-            selectAgent(agent)
+            loadAgentDraft(from: agent)
+            selectedAgentID = selected
         } else if let active = activeAgent {
-            selectAgent(active)
+            loadAgentDraft(from: active)
+            selectedAgentID = active.id
         } else {
             newAgentDraft()
         }
@@ -401,7 +578,8 @@ final class MinecraftStudioModel: ObservableObject {
             jobs: jobs,
             memoryEntries: memoryEntries,
             selectedAgentID: selectedAgentID,
-            autoMemoryEnabled: autoMemoryEnabled
+            autoMemoryEnabled: autoMemoryEnabled,
+            selectedPanel: selectedPanel
         )
         persistence.save(state: state)
     }
@@ -421,7 +599,7 @@ final class MinecraftStudioModel: ObservableObject {
             source: .app,
             timestamp: .now,
             actor: activeAgent?.name ?? "studio",
-            world: snapshot.serverDirectoryPath.flatMap { _ in "local" },
+            world: snapshot.worlds.first?.name ?? "local",
             summary: summary,
             coordinates: nil,
             detail: detail
@@ -442,6 +620,11 @@ final class MinecraftStudioModel: ObservableObject {
             memoryEntries = Array(memoryEntries.prefix(250))
         }
         memoryStatusMessage = "Saved \(memoryEntries.count) world memory events."
+    }
+
+    private func copyToPasteboard(_ text: String) {
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(text, forType: .string)
     }
 
     private func trimmed(_ text: String, fallback: String) -> String {

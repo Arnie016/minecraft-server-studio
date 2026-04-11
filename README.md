@@ -40,13 +40,15 @@ If you want the standalone Codex plugin repo instead, that now lives here:
 
 ## What the icon bar can do now
 
-The menu bar app is no longer just a server status panel. It now acts like a small Minecraft control room:
+The menu bar app is no longer just a server status panel. It now behaves like a small Minecraft control room with a more sophisticated macOS app structure:
 
-- custom agents with their own role, style preset, prompt seed, behavior notes, and memory toggle
-- a lightweight build queue so you can stage ideas like districts, spawn hubs, or castle wings
-- auto-memory that watches CoreProtect history plus interesting `latest.log` events and saves them into a local JSON memory file
-- one-click access to the saved world memory from the icon bar, including open/reveal actions
-- live server inventory, plugin stack, world folders, and restart/open actions
+- `Command Center`: live server state, launch controls, deployment brief, and top-level readiness
+- `World Intel`: world-by-world insight using region counts, player traces, and auto-memory events
+- `Server Lab`: create new local Paper server folders, clone your creative tooling stack, and keep a dedicated studio server workspace
+- `Agents`: custom agent personalities with role, style preset, prompt seed, behavior notes, and memory participation
+- `Ops Deck`: copyable WorldEdit, AI builder, and admin commands for fast operator workflows
+- `World Memory`: CoreProtect-backed command/chat/block history plus notable `latest.log` events saved into local JSON
+- Liquid-Glass-style surfaces on supported systems, with a strong fallback material design on older macOS versions
 
 The default starter agents are:
 
@@ -55,6 +57,14 @@ The default starter agents are:
 - `Navigator`
 
 The memory flow is designed so you can later plug more AI behavior into it without losing the world history.
+
+The local server lab scaffolds new servers by:
+
+- cloning a Paper jar from a selected source server
+- writing a fresh `server.properties`
+- creating a runnable `start-paper.sh`
+- optionally copying only creative plugins or the whole plugin stack
+- leaving `eula.txt` as `false` so you can review it yourself before first launch
 
 ## Product split
 
