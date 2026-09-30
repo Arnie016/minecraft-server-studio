@@ -139,3 +139,10 @@ Use this for AI builder tuning:
 ## FrameCrawler comparison
 
 `FrameCrawler` on your Desktop is a separate repo with its own repo-local plugin. This repo now follows that same idea instead of living only inside `codex-goated-skills`.
+
+## Ashfall Workshop pack catalogue
+
+[`pack-foundry/`](pack-foundry/) adds a separate, free Java 1.21.1 pack collection,
+a static download catalogue, deterministic archives with SHA-256 metadata, and
+a read-only MCP catalogue server. See its README for build and agent handoff
+instructions. These are alpha packs; the existing Mac application is unchanged.

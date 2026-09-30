@@ -1,0 +1,29 @@
+{
+  "parent": "trail_ledger:root",
+  "display": {
+    "icon": {
+      "id": "minecraft:cactus"
+    },
+    "title": "Desert",
+    "description": "Record a desert landscape.",
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "visit": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biomes": "minecraft:desert"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 5
+  }
+}

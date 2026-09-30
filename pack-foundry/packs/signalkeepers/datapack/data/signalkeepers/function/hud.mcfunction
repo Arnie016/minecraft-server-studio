@@ -1,0 +1,1 @@
+title @s actionbar [{"text":"RELAYS ","color":"aqua"},{"score":{"name":"#relays","objective":"sk.sys"}},{"text":"/3  •  CELL ","color":"gray"},{"score":{"name":"@s","objective":"sk.cell"}},{"text":"%  •  INTERFERENCE ","color":"gold"},{"score":{"name":"#heat","objective":"sk.sys"}},{"text":"/100","color":"gray"}]

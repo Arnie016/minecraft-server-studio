@@ -1,0 +1,20 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "minecraft:item/amethyst_shard"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "custom_model_data": 731211
+      },
+      "model": "signalkeepers:item/relic"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 731212
+      },
+      "model": "signalkeepers:item/amethyst_shard_vanilla"
+    }
+  ]
+}

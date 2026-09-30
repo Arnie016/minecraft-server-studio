@@ -1,0 +1,11 @@
+{
+  "functions": 70,
+  "json_documents": 16,
+  "all_function_references_resolve": true,
+  "archive_integrity": "passed",
+  "vanilla_texture_files_overridden": 0,
+  "archives": {
+    "Signalkeepers-1.21.1-models.zip": "d5116c7f36ea63c53bc4f70925712823700ccc3e5e4b965caf4859a418e44248",
+    "Signalkeepers-1.21.1-datapack.zip": "e39b90cf0a1564092bd5ed16d180663422a41c1839bc4b0399a6033f8180565e"
+  }
+}

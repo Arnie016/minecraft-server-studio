@@ -1,0 +1,2 @@
+scoreboard players set #moved sk.tmp 0
+execute facing entity @e[tag=sk.hook_target,limit=1] feet positioned ^ ^ ^0.325 if block ~-0.31 ~0 ~-0.31 #signalkeepers:passable if block ~-0.31 ~0 ~0.31 #signalkeepers:passable if block ~-0.31 ~1.79 ~-0.31 #signalkeepers:passable if block ~-0.31 ~1.79 ~0.31 #signalkeepers:passable if block ~0.31 ~0 ~-0.31 #signalkeepers:passable if block ~0.31 ~0 ~0.31 #signalkeepers:passable if block ~0.31 ~1.79 ~-0.31 #signalkeepers:passable if block ~0.31 ~1.79 ~0.31 #signalkeepers:passable store success score #moved sk.tmp run tp @s ~ ~ ~

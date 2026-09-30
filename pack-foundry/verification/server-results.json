@@ -1,0 +1,118 @@
+{
+  "minecraft": "1.21.1",
+  "java": "21",
+  "checks": [
+    {
+      "check": "server accepted pack functions/recipes/advancements",
+      "passed": true
+    },
+    {
+      "check": "two protocol players connected",
+      "passed": true
+    },
+    {
+      "check": "journal records forest",
+      "passed": true
+    },
+    {
+      "check": "journal records desert",
+      "passed": true
+    },
+    {
+      "check": "journal records jungle",
+      "passed": true
+    },
+    {
+      "check": "journal records snowy_plains",
+      "passed": true
+    },
+    {
+      "check": "journal records swamp",
+      "passed": true
+    },
+    {
+      "check": "journal records badlands",
+      "passed": true
+    },
+    {
+      "check": "journal records mushroom_fields",
+      "passed": true
+    },
+    {
+      "check": "journal completion recorded",
+      "passed": true
+    },
+    {
+      "check": "completion awards one compass",
+      "passed": true
+    },
+    {
+      "check": "completion reward does not repeat",
+      "passed": true
+    },
+    {
+      "check": "recipe unlocked string",
+      "passed": true
+    },
+    {
+      "check": "recipe unlocked flint",
+      "passed": true
+    },
+    {
+      "check": "recipe unlocked leather",
+      "passed": true
+    },
+    {
+      "check": "recipe unlocked name_tag",
+      "passed": true
+    },
+    {
+      "check": "recipe unlocked saddle",
+      "passed": true
+    },
+    {
+      "check": "recipe unlocked lead",
+      "passed": true
+    },
+    {
+      "check": "campfire opt-in works",
+      "passed": true
+    },
+    {
+      "check": "crouching at warm camp advances rest",
+      "passed": true
+    },
+    {
+      "check": "standing resets rest",
+      "passed": true
+    },
+    {
+      "check": "completed rest applies regeneration",
+      "passed": true
+    },
+    {
+      "check": "other player not auto-enrolled",
+      "passed": true
+    },
+    {
+      "check": "campfire opt-out works",
+      "passed": true
+    },
+    {
+      "check": "journal survives reload",
+      "passed": true
+    },
+    {
+      "check": "uninstall removes campfire objectives",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "limitations": [
+    "No graphical Minecraft client",
+    "Recipe output interaction not exercised",
+    "Campfire completion timer accelerated after initial real ticks",
+    "Full Signalkeepers campaign uses historical report"
+  ],
+  "testWorld": "Disposable temporary world; not included"
+}

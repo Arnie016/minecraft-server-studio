@@ -1,0 +1,29 @@
+{
+  "parent": "trail_ledger:root",
+  "display": {
+    "icon": {
+      "id": "minecraft:bamboo"
+    },
+    "title": "Jungle",
+    "description": "Record a jungle landscape.",
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "visit": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biomes": "minecraft:jungle"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 5
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "criteria": {
+    "join": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "rewards": {
+    "recipes": [
+      "fieldcraft:string",
+      "fieldcraft:flint",
+      "fieldcraft:leather",
+      "fieldcraft:name_tag",
+      "fieldcraft:saddle",
+      "fieldcraft:lead"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+scoreboard players set #init sk.sys 1
+scoreboard players set #state sk.sys 0
+scoreboard players set #session sk.sys 0
+scoreboard players set #tick sk.sys 0
+scoreboard players set #heat sk.sys 0
+scoreboard players set #relays sk.sys 0
+scoreboard players set #surges sk.sys 0
+scoreboard players set #upgrade sk.sys 0
+scoreboard players set #idle sk.sys 0
+scoreboard players set #pid sk.sys 0
