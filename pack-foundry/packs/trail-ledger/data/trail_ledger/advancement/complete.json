@@ -1,0 +1,107 @@
+{
+  "parent": "trail_ledger:root",
+  "display": {
+    "icon": {
+      "id": "minecraft:compass"
+    },
+    "title": "A World Remembered",
+    "description": "Visit all seven journal biomes.",
+    "frame": "challenge"
+  },
+  "criteria": {
+    "forest": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biomes": "minecraft:forest"
+            }
+          }
+        ]
+      }
+    },
+    "desert": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biomes": "minecraft:desert"
+            }
+          }
+        ]
+      }
+    },
+    "jungle": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biomes": "minecraft:jungle"
+            }
+          }
+        ]
+      }
+    },
+    "snowy_plains": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biomes": "minecraft:snowy_plains"
+            }
+          }
+        ]
+      }
+    },
+    "swamp": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biomes": "minecraft:swamp"
+            }
+          }
+        ]
+      }
+    },
+    "badlands": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biomes": "minecraft:badlands"
+            }
+          }
+        ]
+      }
+    },
+    "mushroom_fields": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biomes": "minecraft:mushroom_fields"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "function": "trail_ledger:complete"
+  }
+}

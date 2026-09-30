@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "version": "0.1.0",
+  "publisher": "Arnie016",
+  "brand": "Ashfall Workshop",
+  "repository": "https://github.com/Arnie016/minecraft-server-studio",
+  "minecraft": "1.21.1",
+  "edition": "Java",
+  "license": "MIT",
+  "aiDisclosure": "Code, writing and original model geometry were substantially created with AI assistance. Human graphical playtesting remains pending.",
+  "packs": [
+    {
+      "id": "signalkeepers",
+      "name": "Signalkeepers",
+      "kind": "datapack",
+      "category": "Adventure",
+      "tagline": "Bring a forgotten town back on the air.",
+      "description": "A cooperative three-relay expedition with a battery-powered scanner, rising interference, temporary echo enemies, a tree winch and two endings.",
+      "source": "packs/signalkeepers/datapack",
+      "entrypoint": "/trigger sk_start",
+      "uninstall": "/function signalkeepers:uninstall",
+      "dependencies": [],
+      "status": "alpha",
+      "testStatus": "Historical 33-check server report included; graphical playtest pending.",
+      "conflicts": "One shared expedition per world. Overworld only. Full modpack compatibility untested.",
+      "features": [
+        "Three relay objectives",
+        "Quiet and storm endings",
+        "Tree-to-tree winch"
+      ],
+      "accent": "#f2bd70",
+      "version": "0.1.0",
+      "filename": "signalkeepers-0.1.0-java-1.21.1.zip",
+      "url": "downloads/signalkeepers-0.1.0-java-1.21.1.zip",
+      "sha256": "e8d1fe862dea9340372be4629bd67208ea5d1e31d4a08cbb094b00f81cbfe9be",
+      "bytes": 35842
+    },
+    {
+      "id": "signalkeepers-models",
+      "name": "Field Instruments",
+      "kind": "resourcepack",
+      "category": "Visuals",
+      "tagline": "Tools that look like they belong in the field.",
+      "description": "Three original 3D item models for the Signalkeepers scanner, canopy winch and relic, using references to vanilla textures. No texture images are redistributed.",
+      "source": "packs/signalkeepers/resourcepack",
+      "entrypoint": "Enable in Options → Resource Packs.",
+      "uninstall": "Disable in Options → Resource Packs.",
+      "dependencies": [
+        "signalkeepers"
+      ],
+      "status": "alpha",
+      "testStatus": "JSON and model references checked; in-game visual review pending.",
+      "conflicts": "Overrides carrot-on-a-stick, warped-fungus-on-a-stick and amethyst-shard item model definitions.",
+      "features": [
+        "Copper scanner",
+        "Canopy winch",
+        "Archive relic"
+      ],
+      "accent": "#95d4c4",
+      "version": "0.1.0",
+      "filename": "signalkeepers-models-0.1.0-java-1.21.1.zip",
+      "url": "downloads/signalkeepers-models-0.1.0-java-1.21.1.zip",
+      "sha256": "6661c404a4bb6625012d2bbebe62e539d3d6a16df114aadbccdfbc24d470516f",
+      "bytes": 6568
+    },
+    {
+      "id": "trail-ledger",
+      "name": "Trail Ledger",
+      "kind": "datapack",
+      "category": "Exploration",
+      "tagline": "Let the world fill the pages.",
+      "description": "A seven-biome field journal using vanilla advancements. Discover forests, deserts, jungles, snowy plains, swamps, badlands and mushroom fields; complete the journal for a named compass.",
+      "source": "packs/trail-ledger",
+      "entrypoint": "Open Advancements → Trail Ledger, then explore.",
+      "uninstall": "/function trail_ledger:uninstall",
+      "dependencies": [],
+      "status": "alpha",
+      "testStatus": "Validated on the official Java 1.21.1 server with two protocol clients; see the 26-check collection report. Human graphical playtest pending.",
+      "conflicts": "Vanilla biome IDs only. Rewards are once per player unless an operator resets advancements.",
+      "features": [
+        "Seven biome discoveries",
+        "Permanent journal progress",
+        "Completion compass"
+      ],
+      "accent": "#b3c685",
+      "version": "0.1.0",
+      "filename": "trail-ledger-0.1.0-java-1.21.1.zip",
+      "url": "downloads/trail-ledger-0.1.0-java-1.21.1.zip",
+      "sha256": "5f80c6d2e45d51bf9f5bac9182d4a3521c9807ac7619e2eacbe6817654954ea0",
+      "bytes": 7083
+    },
+    {
+      "id": "hearthside",
+      "name": "Hearthside",
+      "kind": "datapack",
+      "category": "Survival",
+      "tagline": "A little warmth goes a long way.",
+      "description": "Opt into campfire rest. Crouch directly above a lit ordinary or soul campfire while well fed for ten seconds to receive a brief regeneration effect. Move away or stand to reset the timer.",
+      "source": "packs/hearthside",
+      "entrypoint": "/trigger hearth_toggle — opt in or out.",
+      "uninstall": "/function hearthside:uninstall",
+      "dependencies": [],
+      "status": "alpha",
+      "testStatus": "Validated on the official Java 1.21.1 server with two protocol clients; see the 26-check collection report. Human graphical playtest pending.",
+      "conflicts": "Does not prevent campfire damage; cover the campfire with a hay bale or other safe arrangement and test your rest spot. Scans one and two blocks below you.",
+      "features": [
+        "Per-player opt-in",
+        "Ten-second rest",
+        "No terrain changes"
+      ],
+      "accent": "#eb9278",
+      "version": "0.1.0",
+      "filename": "hearthside-0.1.0-java-1.21.1.zip",
+      "url": "downloads/hearthside-0.1.0-java-1.21.1.zip",
+      "sha256": "3ab2078c5ab6290b4d82d9bace4741bb44f18a2070f95c6658e9d93c372c3e85",
+      "bytes": 5767
+    },
+    {
+      "id": "fieldcraft",
+      "name": "Fieldcraft",
+      "kind": "datapack",
+      "category": "Crafting",
+      "tagline": "Travel lighter. Waste less.",
+      "description": "A compact survival recipe collection: unpack wool to string, turn rotten flesh into leather by slow cooking, recover flint from gravel, and craft leads, name tags and saddles using readable recipes.",
+      "source": "packs/fieldcraft",
+      "entrypoint": "Recipes unlock on joining; open the recipe book.",
+      "uninstall": "/function fieldcraft:uninstall",
+      "dependencies": [],
+      "status": "alpha",
+      "testStatus": "Validated on the official Java 1.21.1 server with two protocol clients; see the 26-check collection report. Human graphical playtest pending.",
+      "conflicts": "Changes survival balance. Uses namespaced recipes; other packs may supply competing ingredients.",
+      "features": [
+        "Six useful recipes",
+        "Recipe book discovery",
+        "No custom textures"
+      ],
+      "accent": "#c5aedc",
+      "version": "0.1.0",
+      "filename": "fieldcraft-0.1.0-java-1.21.1.zip",
+      "url": "downloads/fieldcraft-0.1.0-java-1.21.1.zip",
+      "sha256": "98599eaac276f8f80f98617a9e15133c34a47c3f2a121db1e9a25b2cd9373325",
+      "bytes": 4687
+    }
+  ],
+  "bundle": {
+    "filename": "ashfall-workshop-0.1.0-java-1.21.1-bundle.zip",
+    "url": "downloads/ashfall-workshop-0.1.0-java-1.21.1-bundle.zip",
+    "sha256": "e4cda3b95274cf5ea7e862c5d59f793b5b11eb7f6900e9a807a85f654224ac80",
+    "bytes": 43986
+  },
+  "authentication": {
+    "status": "checksummed",
+    "note": "Local builds are unsigned. GitHub release workflow generates provenance attestations; check the release before trusting origin."
+  }
+}

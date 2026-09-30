@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "version": "0.1.0",
+  "publisher": "Arnie016",
+  "brand": "Ashfall Workshop",
+  "repository": "https://github.com/Arnie016/minecraft-server-studio",
+  "minecraft": "1.21.1",
+  "edition": "Java",
+  "license": "MIT",
+  "aiDisclosure": "Code, writing and original model geometry were substantially created with AI assistance. Human graphical playtesting remains pending.",
+  "packs": [
+    {
+      "id": "signalkeepers",
+      "name": "Signalkeepers",
+      "kind": "datapack",
+      "category": "Adventure",
+      "tagline": "Bring a forgotten town back on the air.",
+      "description": "A cooperative three-relay expedition with a battery-powered scanner, rising interference, temporary echo enemies, a tree winch and two endings.",
+      "source": "packs/signalkeepers/datapack",
+      "entrypoint": "/trigger sk_start",
+      "uninstall": "/function signalkeepers:uninstall",
+      "dependencies": [],
+      "status": "alpha",
+      "testStatus": "Historical 33-check server report included; graphical playtest pending.",
+      "conflicts": "One shared expedition per world. Overworld only. Full modpack compatibility untested.",
+      "features": [
+        "Three relay objectives",
+        "Quiet and storm endings",
+        "Tree-to-tree winch"
+      ],
+      "accent": "#f2bd70"
+    },
+    {
+      "id": "signalkeepers-models",
+      "name": "Field Instruments",
+      "kind": "resourcepack",
+      "category": "Visuals",
+      "tagline": "Tools that look like they belong in the field.",
+      "description": "Three original 3D item models for the Signalkeepers scanner, canopy winch and relic, using references to vanilla textures. No texture images are redistributed.",
+      "source": "packs/signalkeepers/resourcepack",
+      "entrypoint": "Enable in Options → Resource Packs.",
+      "uninstall": "Disable in Options → Resource Packs.",
+      "dependencies": [
+        "signalkeepers"
+      ],
+      "status": "alpha",
+      "testStatus": "JSON and model references checked; in-game visual review pending.",
+      "conflicts": "Overrides carrot-on-a-stick, warped-fungus-on-a-stick and amethyst-shard item model definitions.",
+      "features": [
+        "Copper scanner",
+        "Canopy winch",
+        "Archive relic"
+      ],
+      "accent": "#95d4c4"
+    },
+    {
+      "id": "trail-ledger",
+      "name": "Trail Ledger",
+      "kind": "datapack",
+      "category": "Exploration",
+      "tagline": "Let the world fill the pages.",
+      "description": "A seven-biome field journal using vanilla advancements. Discover forests, deserts, jungles, snowy plains, swamps, badlands and mushroom fields; complete the journal for a named compass.",
+      "source": "packs/trail-ledger",
+      "entrypoint": "Open Advancements → Trail Ledger, then explore.",
+      "uninstall": "/function trail_ledger:uninstall",
+      "dependencies": [],
+      "status": "alpha",
+      "testStatus": "Validated on the official Java 1.21.1 server with two protocol clients; see the 26-check collection report. Human graphical playtest pending.",
+      "conflicts": "Vanilla biome IDs only. Rewards are once per player unless an operator resets advancements.",
+      "features": [
+        "Seven biome discoveries",
+        "Permanent journal progress",
+        "Completion compass"
+      ],
+      "accent": "#b3c685"
+    },
+    {
+      "id": "hearthside",
+      "name": "Hearthside",
+      "kind": "datapack",
+      "category": "Survival",
+      "tagline": "A little warmth goes a long way.",
+      "description": "Opt into campfire rest. Crouch directly above a lit ordinary or soul campfire while well fed for ten seconds to receive a brief regeneration effect. Move away or stand to reset the timer.",
+      "source": "packs/hearthside",
+      "entrypoint": "/trigger hearth_toggle — opt in or out.",
+      "uninstall": "/function hearthside:uninstall",
+      "dependencies": [],
+      "status": "alpha",
+      "testStatus": "Validated on the official Java 1.21.1 server with two protocol clients; see the 26-check collection report. Human graphical playtest pending.",
+      "conflicts": "Does not prevent campfire damage; cover the campfire with a hay bale or other safe arrangement and test your rest spot. Scans one and two blocks below you.",
+      "features": [
+        "Per-player opt-in",
+        "Ten-second rest",
+        "No terrain changes"
+      ],
+      "accent": "#eb9278"
+    },
+    {
+      "id": "fieldcraft",
+      "name": "Fieldcraft",
+      "kind": "datapack",
+      "category": "Crafting",
+      "tagline": "Travel lighter. Waste less.",
+      "description": "A compact survival recipe collection: unpack wool to string, turn rotten flesh into leather by slow cooking, recover flint from gravel, and craft leads, name tags and saddles using readable recipes.",
+      "source": "packs/fieldcraft",
+      "entrypoint": "Recipes unlock on joining; open the recipe book.",
+      "uninstall": "/function fieldcraft:uninstall",
+      "dependencies": [],
+      "status": "alpha",
+      "testStatus": "Validated on the official Java 1.21.1 server with two protocol clients; see the 26-check collection report. Human graphical playtest pending.",
+      "conflicts": "Changes survival balance. Uses namespaced recipes; other packs may supply competing ingredients.",
+      "features": [
+        "Six useful recipes",
+        "Recipe book discovery",
+        "No custom textures"
+      ],
+      "accent": "#c5aedc"
+    }
+  ]
+}

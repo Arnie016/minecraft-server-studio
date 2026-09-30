@@ -1,0 +1,7 @@
+{
+  "name": "signalkeepers-protocol-tests",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Optional integration-test clients; the Minecraft packs have no npm dependencies",
+  "devDependencies": {"minecraft-protocol": "1.62.0"}
+}

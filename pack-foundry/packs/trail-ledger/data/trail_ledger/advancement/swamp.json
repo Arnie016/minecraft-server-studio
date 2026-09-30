@@ -1,0 +1,29 @@
+{
+  "parent": "trail_ledger:root",
+  "display": {
+    "icon": {
+      "id": "minecraft:lily_pad"
+    },
+    "title": "Swamp",
+    "description": "Record a swamp landscape.",
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "visit": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biomes": "minecraft:swamp"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 5
+  }
+}

@@ -1,0 +1,235 @@
+{
+  "target": "Minecraft Java 1.21.1 / protocol 767 / Java 21",
+  "method": "Official dedicated server and two offline localhost protocol clients; no graphical renderer",
+  "checks": [
+    {
+      "check": "all Minecraft functions parse",
+      "passed": true,
+      "observed": "Official Java 1.21.1 server"
+    },
+    {
+      "check": "two protocol clients connect",
+      "passed": true,
+      "observed": "There are 2 of a max of 4 players online: PartnerTest, KeeperTest"
+    },
+    {
+      "check": "non-operator can start expedition",
+      "passed": true,
+      "observed": 1
+    },
+    {
+      "check": "four survey sites spawned",
+      "passed": true,
+      "observed": 4
+    },
+    {
+      "check": "all labels contain text",
+      "passed": true,
+      "observed": "Text Display has the following entity data: '{\"text\":\"FIELD CAMP \u2022 RECHARGE\",\"italic\":false,\"color\":\"aqua\"}'"
+    },
+    {
+      "check": "second player joins shared expedition",
+      "passed": true,
+      "observed": 2
+    },
+    {
+      "check": "kit does not duplicate items",
+      "passed": true,
+      "observed": {
+        "scanner": 1,
+        "winch": 1
+      }
+    },
+    {
+      "check": "non-leader cannot stop mission",
+      "passed": true,
+      "observed": 1
+    },
+    {
+      "check": "actual crouch and use packet tunes relay",
+      "passed": true,
+      "observed": 2
+    },
+    {
+      "check": "reload preserves campaign progress",
+      "passed": true,
+      "observed": {
+        "session": 1,
+        "charge": 2
+      }
+    },
+    {
+      "check": "listening post completes",
+      "passed": true,
+      "observed": 1
+    },
+    {
+      "check": "capacitor completes and grants upgrade",
+      "passed": true,
+      "observed": {
+        "relays": 2,
+        "upgrade": 1
+      }
+    },
+    {
+      "check": "last lantern rejects loud scan",
+      "passed": true,
+      "observed": 0
+    },
+    {
+      "check": "last lantern enforces interference limit",
+      "passed": true,
+      "observed": 0
+    },
+    {
+      "check": "third relay opens extraction",
+      "passed": true,
+      "observed": {
+        "relays": 3,
+        "state": 2
+      }
+    },
+    {
+      "check": "campaign reaches quiet ending",
+      "passed": true,
+      "observed": {
+        "state": 3,
+        "surges": 0
+      }
+    },
+    {
+      "check": "one relic per participant, no duplicate finish",
+      "passed": true,
+      "observed": {
+        "leader": 1,
+        "partner": 1
+      }
+    },
+    {
+      "check": "ordinary inventory preserved",
+      "passed": true,
+      "observed": 64
+    },
+    {
+      "check": "projections cleaned after ending",
+      "passed": true,
+      "observed": 0
+    },
+    {
+      "check": "pre-existing chunk ticket preserved",
+      "passed": true,
+      "observed": "A force loaded chunk was found in minecraft:overworld at: [0, 0]"
+    },
+    {
+      "check": "expedition can restart",
+      "passed": true,
+      "observed": 2
+    },
+    {
+      "check": "surges spawn bounded echoes",
+      "passed": true,
+      "observed": {
+        "echoes": 4,
+        "surges": 3
+      }
+    },
+    {
+      "check": "echo lifetime expires",
+      "passed": true,
+      "observed": 0
+    },
+    {
+      "check": "two winches have independent anchors",
+      "passed": true,
+      "observed": {
+        "anchors": 2,
+        "positions": {
+          "KeeperTest": [
+            0.500029626378091,
+            -58.18922411203384,
+            5.4442291259765625
+          ],
+          "PartnerTest": [
+            20.50002962637809,
+            -58.18922411203384,
+            5.4442291259765625
+          ]
+        }
+      }
+    },
+    {
+      "check": "winch moves both players toward own trees",
+      "passed": true,
+      "observed": {
+        "KeeperTest": [
+          0.500029626378091,
+          -58.18922411203384,
+          5.4442291259765625
+        ],
+        "PartnerTest": [
+          20.50002962637809,
+          -58.18922411203384,
+          5.4442291259765625
+        ]
+      }
+    },
+    {
+      "check": "winch stops before new obstacle",
+      "passed": true,
+      "observed": [
+        0.500029626378091,
+        -58.18922411203384,
+        5.4442291259765625
+      ]
+    },
+    {
+      "check": "storm route reaches a complete ending",
+      "passed": true,
+      "observed": {
+        "state": 3,
+        "surges": 3
+      }
+    },
+    {
+      "check": "new expedition awards one additional relic",
+      "passed": true,
+      "observed": {
+        "leader": 2,
+        "partner": 2
+      }
+    },
+    {
+      "check": "both ending messages reach clients",
+      "passed": true,
+      "observed": "Quiet and storm messages observed in system_chat packets"
+    },
+    {
+      "check": "stop removes every loaded experiment entity",
+      "passed": true,
+      "observed": 0
+    },
+    {
+      "check": "late-loaded orphan cleanup",
+      "passed": true,
+      "observed": 0
+    },
+    {
+      "check": "stop releases only owned chunk tickets",
+      "passed": true,
+      "observed": "A force loaded chunk was found in minecraft:overworld at: [0, 0]"
+    },
+    {
+      "check": "no pack parse, macro, or display errors",
+      "passed": true,
+      "observed": "No Signalkeepers parse, macro, or display errors"
+    }
+  ],
+  "passed": 33,
+  "failed": 0,
+  "limits": [
+    "No NeoForge modpack combination test",
+    "No rendered visual or audio review",
+    "No FPS measurement",
+    "Flat-world scripted traversal, not human playtesting"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "parent": "minecraft:item/handheld_rod",
+  "textures": {
+    "layer0": "minecraft:item/carrot_on_a_stick"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "custom_model_data": 731201
+      },
+      "model": "signalkeepers:item/scanner"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 731202
+      },
+      "model": "signalkeepers:item/carrot_on_a_stick_vanilla"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "checks": [
+    "five cards",
+    "type filtering",
+    "dialog and Escape",
+    "empty search",
+    "download filename",
+    "mobile overflow",
+    "no JS errors",
+    "browser blocks corrupted archive"
+  ],
+  "viewports": [
+    1440,
+    390
+  ]
+}

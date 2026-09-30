@@ -1,0 +1,29 @@
+{
+  "parent": "trail_ledger:root",
+  "display": {
+    "icon": {
+      "id": "minecraft:red_mushroom"
+    },
+    "title": "Mushroom Fields",
+    "description": "Record a mushroom fields landscape.",
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "visit": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biomes": "minecraft:mushroom_fields"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 5
+  }
+}
