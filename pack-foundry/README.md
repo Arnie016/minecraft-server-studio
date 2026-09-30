@@ -1,5 +1,7 @@
 # Ashfall Workshop · 0.1.0 alpha
 
+[Free download site](https://ashfall-workshop.stashofdoodlido.chatgpt.site) · [GitHub release](https://github.com/Arnie016/minecraft-server-studio/releases/tag/workshop-v0.1.0) · [Publication record](docs/PUBLISHED.md)
+
 Free, versioned Minecraft Java **1.21.1** packs and a no-login static catalogue,
 with a read-only local MCP server for agent discovery and installation planning.
 Maintained under **Arnie016/minecraft-server-studio**. The existing Mac app and

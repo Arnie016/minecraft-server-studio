@@ -51,6 +51,13 @@ jobs:
       - uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4
         with:
           subject-path: 'pack-foundry/dist/*'
+      - name: Verify repository-bound signatures
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for artifact in pack-foundry/dist/*.zip; do
+            gh attestation verify "$artifact" -R "$GITHUB_REPOSITORY"
+          done
       - name: Publish immutable-version alpha assets
         env:
           GH_TOKEN: ${{ github.token }}

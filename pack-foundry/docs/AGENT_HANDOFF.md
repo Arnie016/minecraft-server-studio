@@ -39,8 +39,8 @@ Never assume the private minecraft-launchpad repository is the public catalogue.
 5. Capture real marketplace screenshots and make an original 400×400 project icon.
 6. Create CurseForge project IDs, then upload reviewed alpha files with accurate
    AI disclosure and validation status. Keep credentials in secret storage.
-7. Publish the static `site/` folder through GitHub Pages or the owner's hosting.
-   GitHub source availability alone is not a deployed website.
+7. The no-login public catalogue is deployed. See PUBLISHED.md for its URL and
+   exact hosting identity. Reuse that Site for future updates.
 8. The initial branch push runs a gated alpha-release job. Later versions can
    use workflow_dispatch with publish=true. Verify
    the attestation before describing downloads as authenticated.
